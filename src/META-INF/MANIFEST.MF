@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Class-Path: scopt_2.10-3.2.0.jar scala-actors.jar scala-library.jar sc
+ ala-swing.jar gdx.jar gdx-natives.jar gdx-sources.jar gdx-freetype.ja
+ r gdx-controllers.jar gdx-backend-lwjgl.jar gdx-freetype-natives.jar 
+ gdx-freetype-sources.jar gdx-controllers-desktop.jar gdx-controllers-
+ sources.jar gdx-backend-lwjgl-natives.jar gdx-backend-lwjgl-sources.j
+ ar gdx-controllers-desktop-natives.jar gdx-controllers-desktop-source
+ s.jar
+Main-Class: com.deweyvm.dogue.raven.Main
+
