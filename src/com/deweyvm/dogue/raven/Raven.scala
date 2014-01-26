@@ -25,24 +25,31 @@ class Raven(timestampFile:String, lastRunFile:String, command:Seq[String]){
         Log.info("Awaiting connection")
         connection = server.accept().some
         Log.info("Accepted connection")
-        connection foreach { sock =>
-          val read = sock.receiveAll()
-          read match {
-            case NetworkData.EndOfStream =>
-              throw new RavenException("Client closed before sending any data")
-            case NetworkData.NoneAvailable =>
-              throw new RavenException("Impossible")
-            case NetworkData.Data(s) =>
-              Log.info("Got data %s" format s)
-              updateServer()
+        var reading = true
+        while(reading) {
+          connection foreach { sock =>
+            val read = sock.receive()
+            read match {
+              case NetworkData.EndOfStream =>
+                throw new RavenException("Client closed before sending any data")
+              case NetworkData.NoneAvailable =>
+                Thread.sleep(100)
+                ()
+              case NetworkData.Data(s) =>
+                Log.info("Got data %s" format s)
+                updateServer()
+                reading = false
+            }
+
           }
-          connection foreach {
-            _.transmit("Done")
-          }
-          Log.info("Closing connection")
-          connection foreach {_.close()}
-          connection = None
         }
+
+        connection foreach {
+          _.transmit("Done")
+        }
+        Log.info("Closing connection")
+        connection foreach {_.close()}
+        connection = None
       } catch {
         case exc:RavenException =>
           Log.error(Log.formatStackTrace(exc))
