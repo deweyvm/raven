@@ -40,7 +40,6 @@ class Raven(timestampFile:String, lastRunFile:String, command:Seq[String]){
                 updateServer()
                 reading = false
             }
-
           }
         }
 
