@@ -36,7 +36,9 @@ class Raven(timestampFile:String, lastRunFile:String, command:Seq[String]){
               Log.info("Got data %s" format s)
               updateServer()
           }
-
+          connection foreach {
+            _.transmit("Done")
+          }
           Log.info("Closing connection")
           connection foreach {_.close()}
           connection = None

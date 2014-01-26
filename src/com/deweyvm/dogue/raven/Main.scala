@@ -1,8 +1,9 @@
 package com.deweyvm.dogue.raven
 
 import com.deweyvm.dogue.common.logging.Log
+import java.lang.management.ManagementFactory
 
-case class RavenOptions(logDir:String=".", timestamp:String=".", lastRunFile:String=".", command:Seq[String]=Seq())
+case class RavenOptions(logDir:String=".", timestamp:String=".", lastRunFile:String=".", command:String="")
 
 object Main {
   def main(args:Array[String]) {
@@ -21,16 +22,17 @@ object Main {
         c.copy(lastRunFile = x)
       } text "last run file absolute path"
 
-      arg[String]("command") unbounded() action { (x, c) =>
-        c.copy(command = c.command :+ x)
+      opt[String]("command") action { (x, c) =>
+        c.copy(command = x)
       } text "command to restart the server"
 
     }
     parser.parse(args, RavenOptions()) map { c =>
       Log.setDirectory(c.logDir)
-        new Raven(c.timestamp, c.lastRunFile, c.command)
+      new Raven(c.timestamp, c.lastRunFile, c.command.split(" ")).execute()
     } getOrElse {
       println(parser.usage)
+      println(ManagementFactory.getRuntimeMXBean.getName.split("@")(0))
       throw new RavenException("invalid args")
     }
 
