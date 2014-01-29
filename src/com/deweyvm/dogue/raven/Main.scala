@@ -28,11 +28,10 @@ object Main {
 
     }
     parser.parse(args, RavenOptions()) map { c =>
-      Log.setDirectory(c.logDir)
+      Log.initLog(c.logDir, Log.Verbose)
       new Raven(c.timestamp, c.lastRunFile, c.command.split(" ")).execute()
     } getOrElse {
       println(parser.usage)
-      println(ManagementFactory.getRuntimeMXBean.getName.split("@")(0))
       throw new RavenException("invalid args")
     }
 
