@@ -3,7 +3,7 @@ package com.deweyvm.dogue.raven
 import com.deweyvm.dogue.common.logging.Log
 import java.lang.management.ManagementFactory
 
-case class RavenOptions(logDir:String=".", timestamp:String=".", lastRunFile:String=".", command:String="")
+case class RavenOptions(logDir:String=".", timestamp:String=".", lastRunFile:String=".", port:Int=0, command:String="")
 
 object Main {
   def main(args:Array[String]) {
@@ -22,6 +22,10 @@ object Main {
         c.copy(lastRunFile = x)
       } text "last run file absolute path"
 
+      opt[Int]("port") action { (x, c) =>
+        c.copy(port = x)
+      } text "last run file absolute path"
+
       opt[String]("command") action { (x, c) =>
         c.copy(command = x)
       } text "command to restart the server"
@@ -29,7 +33,7 @@ object Main {
     }
     parser.parse(args, RavenOptions()) map { c =>
       Log.initLog(c.logDir, Log.Verbose)
-      new Raven(c.timestamp, c.lastRunFile, c.command.split(" ")).execute()
+      new Raven(c.timestamp, c.lastRunFile, c.port, c.command.split(" ")).execute()
     } getOrElse {
       println(parser.usage)
       throw new RavenException("invalid args")
