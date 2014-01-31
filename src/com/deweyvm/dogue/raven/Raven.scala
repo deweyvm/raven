@@ -19,6 +19,7 @@ class Raven(timestampFile:String, lastRunFile:String, port:Int, command:Seq[Stri
   override def init() {
     Log.info("Booting up")
   }
+
   override def doWork() {
     try {
       Log.info("Awaiting connection")
