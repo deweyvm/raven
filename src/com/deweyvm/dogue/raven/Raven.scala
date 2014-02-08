@@ -70,7 +70,7 @@ class Raven(timestampFile:String, lastRunFile:String, port:Int, command:Seq[Stri
     val out = new StringBuilder
     val err = new StringBuilder
 
-    val logger = ProcessLogger(out.append(_), err.append(_))
+    val logger = ProcessLogger(out.append(_).ignore(), err.append(_).ignore())
     command.lines(logger)
     out.mkString.split('\n') foreach Log.info
     err.mkString.split('\n') foreach Log.warn
