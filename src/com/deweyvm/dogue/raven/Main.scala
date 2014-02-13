@@ -35,7 +35,7 @@ object Main {
       Log.initLog(c.logDir, Log.Verbose)
       new Raven(c.timestamp, c.lastRunFile, c.port, c.command.split(" ")).execute()
     } getOrElse {
-      println(parser.usage)
+      System.err.print(parser.usage + "\n")
       throw new RavenException("invalid args")
     }
 
