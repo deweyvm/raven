@@ -1,7 +1,7 @@
 package com.deweyvm.dogue.raven
 
 import java.net.{Socket, ServerSocket}
-import com.deweyvm.dogue.common.io.{DogueServer, NetworkData}
+import com.deweyvm.dogue.common.io.NetworkData
 import com.deweyvm.dogue.common.CommonImplicits._
 import scala.sys.process._
 import com.deweyvm.dogue.common.logging.Log

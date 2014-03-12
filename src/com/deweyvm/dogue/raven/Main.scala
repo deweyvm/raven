@@ -1,7 +1,6 @@
 package com.deweyvm.dogue.raven
 
 import com.deweyvm.dogue.common.logging.Log
-import java.lang.management.ManagementFactory
 
 case class RavenOptions(logDir:String=".", timestamp:String=".", lastRunFile:String=".", port:Int=0, command:String="")
 
